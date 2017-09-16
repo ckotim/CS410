@@ -5,9 +5,5 @@
 #include <iostream>
 
 namespace cs410 {
-	Model::Model() : s("Hello, World!\n") {}
-	
-	void Model::printtest() {
-		std::cout << this->s;
-	}
+
 }

@@ -13,15 +13,11 @@ namespace cs410 {
 		public:
 			//Default CTOR
 			Model();
-			
-			void printtest();
 		
 		private:
 			std::string s;
 			
 
-
-	
 	};
 }
 
