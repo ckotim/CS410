@@ -1,9 +1,11 @@
 #include "math.h"
+#include "driver.h"
 #include <iostream>
+#include <string>
 
 
 
-int main(){
+int main(int argc, const char* argv[]){
  /*    cs410::math::Point p0(0,-3,.5,1);
     cs410::math::Point p1 = p0;
     cs410::math::Point p2;
@@ -62,6 +64,38 @@ int main(){
     std::cout << m1.transpose() << std::endl; */
     
     
+    //cs410::Driver(std::string(argv[1]));
+    
+    cs410::Transformation t1(0.0, 1.0, 0.0, 45, 2.0, 10.0, 0.0, 10.0, "cube.obj");
+    cs410::math::Matrix r = t1.get_rotation_matrix();
+    cs410::math::Matrix s = t1.get_scale_matrix();
+    cs410::math::Matrix t = t1.get_translate_matrix();
+    
+    
+    std::vector<cs410::math::Point> columns;
+    columns.push_back(cs410::math::Point(0,0,0,1));
+    columns.push_back(cs410::math::Point(4,0,0,1));
+    columns.push_back(cs410::math::Point(4,4,0,1));
+    columns.push_back(cs410::math::Point(0,4,0,1));
+    columns.push_back(cs410::math::Point(0,0,4,1));
+    columns.push_back(cs410::math::Point(4,0,4,1));
+    columns.push_back(cs410::math::Point(4,4,4,1));
+    columns.push_back(cs410::math::Point(0,4,4,1));
+    
+    cs410::math::Matrix points(columns);
+    
+/*     std::cout << points << '\n';
+    std::cout << s * points << '\n';
+    std::cout << t * points << '\n';
+    std::cout << s * (t * points) << '\n';
+    std::cout << t * (s * points) << '\n'; */
+
+    
+    
+    
+    std::cout << t * (s * (r * points));
+    
+
     
     
     

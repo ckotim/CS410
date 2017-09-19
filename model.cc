@@ -10,4 +10,10 @@ namespace cs410 {
         verticies.push_back(p.to_homogeneous());
     }
     
+    void Model::transform(const math::Matrix& m) {
+        for(auto& vertex : verticies){
+            vertex = m * vertex;
+        }
+    }
+    
 }

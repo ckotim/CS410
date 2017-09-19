@@ -79,7 +79,7 @@ namespace cs410 {
         Vector operator*(float i, const Vector& v);
         Vector operator+(const Vector& v1, const Vector& v2);
         Matrix operator*(const Matrix& m1, const Matrix& m2);
-        Matrix operator*(const Matrix& m, const Vector& v);
+        Point operator*(const Matrix& m, const Point& p);
         
     }
 }

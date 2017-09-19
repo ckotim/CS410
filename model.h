@@ -15,9 +15,7 @@ namespace cs410 {
 			// ctors
             // methods
             void add_vertex(const math::Point& p);
-            void translate(const float x, const float y, const float z);
-            void scale(const float f);
-            void rotate(const float theta, const float wx, const float wy, const float wz);
+            void transform(const math::Matrix& m);
 		private:
 			// data
             std::vector<math::Point> verticies;

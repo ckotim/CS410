@@ -26,7 +26,7 @@ namespace cs410 {
         // to homogeneous
         Point Point::to_homogeneous() const {
             if(data[3] == 0)
-                return(Point(data[0],data[1],data[2],data[3]));
+            return(Point(data[0],data[1],data[2],data[3]));
             return *this;
         }
         
@@ -47,7 +47,7 @@ namespace cs410 {
         std::ostream& operator<<(std::ostream& os, const Vector& v){
             return os << '[' <<  v.value.data[0] << ',' << v.value.data[1] << ',' << v.value.data[2] << ',' << v.value.data[3] << ']';
         }  
-       
+        
         
         // magnitude
         float Vector::magnitude() const {
@@ -112,10 +112,10 @@ namespace cs410 {
             ssz << '|';
             ssh << '|';
             for(auto a : m.columns){
-                ssx << a.data[0] << '\t';
-                ssy << a.data[1] << '\t';
-                ssz << a.data[2] << '\t';
-                ssh << a.data[3] << '\t';
+                ssx << a.data[0] << "\t\t";
+                ssy << a.data[1] << "\t\t";
+                ssz << a.data[2] << "\t\t";
+                ssh << a.data[3] << "\t\t";
             }  
             ssx << "|\n";
             ssy << "|\n";
@@ -195,6 +195,12 @@ namespace cs410 {
         
         Matrix operator*(const Matrix& m1, const Matrix& m2) {
             return m1.multiply(m2);
+        }
+        
+        Point operator*(const Matrix& m, const Point& p) {
+            std::vector<Point> points;
+            points.push_back(p);
+            return (m * Matrix(points)).columns[0];
         }
         
     }
