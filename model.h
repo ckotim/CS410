@@ -6,16 +6,23 @@
 #define CS410_MODEL_H_
 
 #include <string>
+#include "math.h"
 
 namespace cs410 {
 
 	class Model {
 		public:
-			//Default CTOR
-			Model();
-		
+			// ctors
+            // methods
+            void add_vertex(const math::Point& p);
+            void translate(const float x, const float y, const float z);
+            void scale(const float f);
+            void rotate(const float theta, const float wx, const float wy, const float wz);
 		private:
-			std::string s;
+			// data
+            std::vector<math::Point> verticies;
+            
+            
 			
 
 	};

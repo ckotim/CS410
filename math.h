@@ -8,6 +8,7 @@
 #define CS410_MATH_H_
 
 #include <vector>
+#include <iostream>
 
 namespace cs410 {
     
@@ -16,15 +17,15 @@ namespace cs410 {
         // point (x,y,z) in 3D space
         struct Point {
             // data
-            int x, y, z;
+            float data[4];
             
             // ctors
             Point();
-            Point(int x, int y, int z);
-            Point& operator=(const Point&);
+            Point(float x, float y, float z, float h);
             
-            //methods
-            void print() const;
+            // methods
+            Point to_homogeneous() const;
+            Point to_cartesian() const;
         };
         
         // vector [x,y,z] in 3D space
@@ -32,41 +33,51 @@ namespace cs410 {
         public:
             // ctors
             Vector(Point p);
-            void print() const;
             
             // methods
-            
-            int magnitude();
+            float magnitude() const;
+            Vector unit() const;
             Vector scale(const float& f) const;
-            Vector add(const Vector& v) const;
-            Vector dot(const Vector& v) const;
+            Point add_point(const Point& p) const;
+            Vector add_vector(const Vector& v) const;
+            float dot(const Vector& v) const;
             Vector cross(const Vector& v) const;
-        private:
-            // magnitude and direction of point
+
+            // x,y,z
             Point value;
-            
+            bool is_homogeneous;
+        private:            
         };
         
         // matrix N * 4 
         class Matrix {
         public:
             // ctors
-            Matrix();
+            Matrix(int num_cols);
+            Matrix(std::vector<Point> data);
             void print() const;
             
             // methods
+            int num_rows() const;
+            int num_cols() const;
+            void add_element(const int& row, const int& col, const float& val);
+            float get_element(const int& row, const int& col) const;
             Matrix multiply(const Matrix& m) const;
-            Matrix multiply(const Vector& v) const;
+            Matrix transpose() const;
+            
+            std::vector<Point> columns;
         private:
-            std::vector<Point> data;
         };
         
         //overloads
+        std::ostream& operator<<(std::ostream& os, const Point& p);
+        std::ostream& operator<<(std::ostream& os, const Vector& v);     
+        std::ostream& operator<<(std::ostream& os, const Matrix& m);         
         
-        // float * vector for scalar vector multipliation
+        Point operator+(const Point& p, const Vector& v);
+        Vector operator-(const Point& p1, const Point& p2);
         Vector operator*(float i, const Vector& v);
         Vector operator+(const Vector& v1, const Vector& v2);
-        Point operator+(const Point& p, const Vector& v);
         Matrix operator*(const Matrix& m1, const Matrix& m2);
         Matrix operator*(const Matrix& m, const Vector& v);
         
