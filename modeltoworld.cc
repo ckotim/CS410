@@ -64,8 +64,9 @@ int main(int argc, const char* argv[]){
     std::cout << m1.transpose() << std::endl; */
     
     
-    //cs410::Driver(std::string(argv[1]));
+    //
     
+   /*  
     cs410::Transformation t1(0.0, 1.0, 0.0, 45, 2.0, 10.0, 0.0, 10.0, "cube.obj");
     cs410::math::Matrix r = t1.get_rotation_matrix();
     cs410::math::Matrix s = t1.get_scale_matrix();
@@ -84,7 +85,7 @@ int main(int argc, const char* argv[]){
     
     cs410::math::Matrix points(columns);
     
-/*     std::cout << points << '\n';
+    std::cout << points << '\n';
     std::cout << s * points << '\n';
     std::cout << t * points << '\n';
     std::cout << s * (t * points) << '\n';
@@ -92,9 +93,10 @@ int main(int argc, const char* argv[]){
 
     
     
+    cs410::Driver d = cs410::Driver(std::string(argv[1]));
     
-    std::cout << t * (s * (r * points));
-    
+    d.transform();
+     
 
     
     

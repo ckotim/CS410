@@ -61,8 +61,6 @@ namespace cs410 {
         
         math::Matrix Rz(columns2);
         
-        std::cout << Rw << '\n' << Rz << '\n' << RwT << '\n';
-        
         return ((RwT * Rz) * Rw);
     }
     
@@ -108,25 +106,79 @@ namespace cs410 {
                 tforms.push_back(Transformation(wx, wy, wz, theta, scale, tx, ty, tz, obj));
             }
         }
+        driver_name = path.substr(0, path.size() - 4);
+        std::system(("mkdir " + driver_name).c_str());
+        
         reader.close();
     }
     
     // methods
     
-    void Driver::Transform() {
+    void Driver::transform() {
         for(auto tform : tforms){
+            math::Matrix r = tform.get_rotation_matrix();
+            math::Matrix s = tform.get_scale_matrix();
+            math::Matrix t = tform.get_translate_matrix();
+            
+            //create writer
+            
+            int i = 0;
+            int j = 0;
+            std::string write_name = driver_name + "/" + tform.obj.substr(0, tform.obj.size() - 4) + "_mw" + std::to_string(i) + std::to_string(j) + ".obj";
+            std::ifstream file_checker(write_name);
+            while(file_checker.good()) {
+                if(j == 9) {
+                    i++;
+                    j = 0;
+                } else {
+                    j++;
+                }
+                write_name = driver_name + "/" + tform.obj.substr(0, tform.obj.size() - 4) + "_mw" + std::to_string(i) + std::to_string(j) + ".obj";
+                file_checker.close();
+                file_checker.open(write_name);
+            }
+            std::ofstream obj_writer(write_name);          
+            
             // read in object into model
             std::ifstream obj_file;
             std::string line;
             std::vector<std::string> lines;
-            obj_file.open("objects/" + tform.obj);
+            obj_file.open(tform.obj);
+            //std::cout << "Opening object" << '\n';
             if(obj_file.is_open()){
+                //std::cout << "Sucessfully Opened Object" << '\n';
                 while(std::getline(obj_file,line)){
+                    //std::cout << line << '\n';
                     lines.push_back(line);
                 }  
             }
             // transform model
-            // write model back
+            obj_writer << "# This file was modified by Christian Meyer for CS410 Fall 2017" << '\n';
+            for(std::string &cur_line : lines) {
+                if(cur_line.substr(0,2) == "v "){
+                    std::stringstream ss;
+                    ss.str(cur_line);
+                    std::string v;
+                    float x, y, z;
+                    ss >> v >> x >> y >> z;
+                    std::vector<math::Point> point;
+                    point.push_back(math::Point(x,y,z,1));
+                    math::Matrix point_matrix(point);
+
+                    point_matrix = t * (s * (r * point_matrix));
+                    
+                    std::stringstream ll;
+                    
+                    ll << v << " " << point_matrix.get_element(0, 0) << " " << point_matrix.get_element(1, 0) << " " << point_matrix.get_element(2, 0);
+                    //std::cout << ll.str() << '\n';
+                    cur_line = ll.str();
+                    obj_writer << (cur_line) << '\n';
+                } else if(cur_line.substr(0,2) != "vn" && cur_line.substr(0,2) != "s "){
+                    obj_writer << (cur_line) << '\n';
+                }
+            }
+            obj_writer.close();
+
         }
     }
 

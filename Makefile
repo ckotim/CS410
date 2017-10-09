@@ -8,3 +8,5 @@ build: $(*.cc)
 	$(CXX) -Wall -o $(OUT_EXE) $(FILES)
 clean:
 	rm -f *.o $(OUT_EXE)
+tar:
+	tar cvf Meyer.Christian.CS410FA17.A1.tar $(FILES) readme.txt Makefile

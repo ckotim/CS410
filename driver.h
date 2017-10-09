@@ -33,11 +33,12 @@ namespace cs410 {
         Driver(std::string path);
         
         // methods
-        void Transform();
+        void transform();
         
     private:
         std::vector<Transformation> tforms;
         std::ifstream reader;
+        std::string driver_name;
     };
     
 
